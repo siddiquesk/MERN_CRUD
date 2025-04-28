@@ -4,72 +4,78 @@ import { useNavigate, Link } from 'react-router-dom';
 import { getUsers, deleteUser } from "../service/api";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import toast from 'react-hot-toast';
 
 const Wrapper = styled(Box)`
-  margin: 25px;
+  margin: 20px;
   padding: 20px;
-  color: #fff;
-  background-color:maroon;  /* Dark background for contrast */
   max-width: 100%;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
 `;
 
 const UserCard = styled(Card)`
   margin: 15px 0;
-  padding: 20px;
-  background-color: #212121;  /* Dark grey background */
-  color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  padding: 10px 20px;
+  background-color: #F9F9F9;  /* Light grey background */
+  color: #333;  /* Dark text for better contrast */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   height: 100%;
-  
+  max-width: 100%;
+
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 600px) {
+    margin: 10px 0; /* Smaller margin on mobile */
+    padding: 20px;  /* Adjusted padding for mobile */
+    width: 100%;  /* Full width on mobile */
   }
 `;
 
 const ActionButton = styled(Button)`
   &.delete {
-    background-color: #e57373;
-    margin: 5px;
+    background-color: #FF6F61;  /* Red color for delete */
+    margin:  8px;
     color: white;
-    padding: 10px 15px;
-    font-size: 0.9rem; /* Adjusted for better mobile view */
+    padding: 8px;
+    font-size: 1rem;
     &:hover {
-      background-color: #d32f2f;
+      background-color: #D95D50;
     }
   }
 
   &.edit {
-    background-color: #64b5f6;
-    margin: 5px;
+    background-color: #4CAF50;  /* Green color for edit */
+    margin: 10px 0;
     color: white;
-    padding: 10px 15px;
-    font-size: 0.9rem;
+    padding: 8px;
+    font-size: 1rem;
     &:hover {
-      background-color: #1976d2;
+      background-color: #388E3C;
     }
   }
 `;
 
 const UserName = styled(Typography)`
-  font-size: 1.5rem; /* Increased font size for better readability */
+  font-size: 1.6rem;
   font-weight: bold;
-  color: white;
+  margin: 10px 0;
+  color: #333;  /* Darker text */
 `;
 
 const UserDetails = styled(Typography)`
-  font-size: 1.125rem; /* Increased font size */
+  font-size: 1rem;
   margin-top: 8px;
-  color: #bbb;
+  color: #555;  /* Slightly lighter text */
 `;
 
 const UserGrid = styled(Grid)`
   overflow-y: auto;
-  max-height: 80vh; /* Make the grid scrollable */
+  max-height: 80vh;
 `;
 
 function AllUser() {
@@ -94,16 +100,16 @@ function AllUser() {
 
   const deletehandle = async (id) => {
     const response = await deleteUser(id);
+    toast.success(response.msg);
     navigate('/code-with-sufiyan');
   };
 
   return (
     <Wrapper>
       {loading ? (
-        <div style={{ color: '#f44336', textAlign: 'center', fontSize: '20px' }}>Data is being fetched...</div>
+        <div style={{ color: '#FF6F61', textAlign: 'center', fontSize: '20px' }}>Data is being fetched...</div>
       ) : (
-        <UserGrid container spacing={3}>
-          {/* Data Cards */}
+        <UserGrid container spacing={2}>
           {usersData.map((data, index) => (
             <Grid item xs={12} sm={6} md={4} key={data._id}>
               <UserCard>
@@ -113,7 +119,7 @@ function AllUser() {
                   <UserDetails><strong>Email:</strong> {data.email}</UserDetails>
                   <UserDetails><strong>Phone:</strong> {data.phone}</UserDetails>
                 </CardContent>
-                <CardActions>
+                <CardActions sx={{ justifyContent: 'space-between', paddingBottom: '10px' }}>
                   <ActionButton
                     variant="contained"
                     component={Link}

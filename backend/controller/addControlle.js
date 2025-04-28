@@ -61,7 +61,7 @@ export const getSingleUser = async (req, res) => {
 export const editUser = async (req, res) => {
   const user = req.body;
   try {
-    const update = await User.updateOne({ _id: req.params.id }, { $set: user });
+    const update = await User.findByIdAndUpdate({ _id: req.params.id }, { $set: user },{new:true});
     console.log(update);
     res.status(201).json({ msg: 'Update data successfully', update });
   } catch (err) {

@@ -12,7 +12,7 @@ function EditUser() {
     phone: ''
   });
   const { id } = useParams();
-
+  const navigate = useNavigate();
   useEffect(() => {
     loadUserDetails();
   }, [])
@@ -26,10 +26,11 @@ function EditUser() {
   const onValueChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-  const navigate = useNavigate();
+  
 
   const editUserDetails = async () => {
-    await editUser(user, id);
+    const response = await editUser(user, id);
+    toast.success(response.msg)
     navigate('/all-user');
   };
 
