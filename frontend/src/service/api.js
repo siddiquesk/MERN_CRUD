@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = 'http://localhost:8000/api/v1';  // Your server URL
+const url = 'https://mern-crud2-gh47.onrender.com';  // Your server URL
 
 export const AddUsers = async (user) => {
   try {
